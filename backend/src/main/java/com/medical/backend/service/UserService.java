@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -14,21 +15,32 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void requestDoctor(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow();
+    public String requestDoctor(Long id) {
+        Optional<User> user = userRepository.findById(id);
 
-        user.setDoctorRequst(true); //trimite cererea
+        if (user.isPresent()) {
+            user.get().setDoctorRequest(true);
 
-        userRepository.save(user);
+            userRepository.save(user.get());
+            return "Success, your application was submited";
+        } else {
+            return "User not found";
+        }
+
     }
 
-    public void aproveDoctor(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow();
+    public String approveDoctor(Long id) {
+        Optional<User> user = userRepository.findById(id);
 
-        user.setIsDoctor(true); //seteaza utilizatorul drept doctor
+        if (user.isPresent()) {
 
-        userRepository.save(user);
+            user.get().setDoctorRequest(false);
+            user.get().setDoctor(true);
+
+            userRepository.save(user.get());
+            return "Success, your application was approved";
+        } else {
+            return "User not found";
+        }
     }
 }

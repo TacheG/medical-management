@@ -55,8 +55,7 @@ public class AuthController {
         final User newUser = new User(
                 authRequest.getUsername(),
                 passwordEncoder.encode(authRequest.getPassword()),
-                "",
-                ""
+                authRequest.getEmail()
         );
         userRepository.save(newUser);
         return "User registered successfully";
