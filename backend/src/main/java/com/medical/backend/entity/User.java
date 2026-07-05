@@ -1,12 +1,8 @@
 package com.medical.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.jspecify.annotations.Nullable;
 
 @Entity
 @Getter
@@ -21,15 +17,16 @@ public class User {
 
     private String email;
 
-    @Enumerated(EnumType.String)
+    @Enumerated(EnumType.STRING)
     private AuthRole role = AuthRole.User;
+
     private boolean isDoctor = false; // User-ul e Patient sau Doctor
     private boolean doctorRequest = false;  // false = nu a cerut aprobare la admin
                                             // true = a trimis cererea catre admin
 
     public User() {}
 
-    public User(String username, String password, String email, String role) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
