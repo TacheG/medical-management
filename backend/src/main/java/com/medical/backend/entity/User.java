@@ -21,7 +21,11 @@ public class User {
 
     private String email;
 
-    private String role;
+    @Enumerated(EnumType.String)
+    private AuthRole role = AuthRole.User;
+    private boolean isDoctor = false; // User-ul e Patient sau Doctor
+    private boolean doctorRequest = false;  // false = nu a cerut aprobare la admin
+                                            // true = a trimis cererea catre admin
 
     public User() {}
 
@@ -29,6 +33,5 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
 }
