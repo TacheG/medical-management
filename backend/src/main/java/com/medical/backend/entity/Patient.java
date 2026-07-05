@@ -1,20 +1,13 @@
-package com.medical.backend.model;
+package com.medical.backend.entity;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-public class Patient {
-    private String name;
-    private String surname;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long patientID;
+public class Patient extends User {
     private String CNP;
     private String phoneNumber;
-    private String email;
 
     private String[] medicalHistory;
 
