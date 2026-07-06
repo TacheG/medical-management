@@ -1,5 +1,6 @@
 package com.medical.backend.controller;
 
+import com.medical.backend.entity.Patient;
 import com.medical.backend.entity.User;
 import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.AuthRequest;
@@ -57,6 +58,11 @@ public class AuthController {
                 passwordEncoder.encode(authRequest.getPassword()),
                 authRequest.getEmail()
         );
+
+        Patient patientProfile = new Patient();
+        patientProfile.setUser(newUser);
+        newUser.setPatientProfile(patientProfile);
+
         userRepository.save(newUser);
         return "User registered successfully";
     }

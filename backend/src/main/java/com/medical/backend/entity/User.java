@@ -20,9 +20,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthRole role = AuthRole.User;
 
-    private boolean isDoctor = false; // User-ul e Patient sau Doctor
-    private boolean doctorRequest = false;  // false = nu a cerut aprobare la admin
-                                            // true = a trimis cererea catre admin
+    private boolean isDoctor = false;
+    private boolean doctorRequest = false;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Patient patientProfile;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Doctor doctorProfile;
 
     public User() {}
 

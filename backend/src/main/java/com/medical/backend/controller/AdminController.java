@@ -16,4 +16,10 @@ public class AdminController {
     public String approveDoctor(@PathVariable Long id) {
         return userService.approveDoctor(id);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/removeDoctor/{id}")
+    public String removeDoctor(@PathVariable Long id) {
+        return userService.removeDoctor(id);
+    }
 }
