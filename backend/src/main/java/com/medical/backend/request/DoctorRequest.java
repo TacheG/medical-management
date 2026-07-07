@@ -9,7 +9,8 @@ import java.util.List;
 @Setter
 public class DoctorRequest {
     private Long userId;
-    private List<String> specialization;
     private String licenseNumber;
+    private String biography;
+    private Integer experienceYears;
 
 }

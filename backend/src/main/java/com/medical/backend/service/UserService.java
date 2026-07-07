@@ -44,13 +44,14 @@ public class UserService {
 
         Doctor doctor = new Doctor();
         doctor.setUser(userDetails);
-        doctor.setSpecialization(doctorRequest.getSpecialization());
         doctor.setLicenseNumber(doctorRequest.getLicenseNumber());
         doctor.setStatus(DoctorStatus.PENDING);
         doctorRepository.save(doctor);
 
         userDetails.setDoctorRequest(true);
         userRepository.save(userDetails);
+
+        userDetails.setDoctorProfile(doctor);
 
         return "Success, your application was submitted";
     }
