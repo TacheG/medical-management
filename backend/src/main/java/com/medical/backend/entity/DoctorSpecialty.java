@@ -2,10 +2,11 @@ package com.medical.backend.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
-public class Appointment {
+public class DoctorSpecialty {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,11 +16,8 @@ public class Appointment {
     private Doctor doctor;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    @JoinColumn(name = "specialty_id")
+    private Specialty specialty;
 
-    private LocalDateTime dateTime;
-    private String status;
-
-    public Appointment() {}
+    private BigDecimal price;
 }
