@@ -2,6 +2,7 @@ package com.medical.backend.controller;
 
 import com.medical.backend.entity.Patient;
 import com.medical.backend.entity.User;
+import com.medical.backend.exception.UserAlreadyExistsException;
 import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.AuthRequest;
 import com.medical.backend.security.JwtUtil;
@@ -50,7 +51,7 @@ public class AuthController {
     @PostMapping("/signup")
     public String registerUser(@RequestBody AuthRequest authRequest) {
         if (userRepository.findByUsername(authRequest.getUsername()).isPresent()) {
-            return "User already exists";
+            throw new UserAlreadyExistsException("User already exists");
         }
 
         final User newUser = new User(
