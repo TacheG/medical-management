@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String Username);
 
-    List<User> findByDoctorRequestTrue(); // lista de utilizatori care au cerut aprobare de la admini pentru a fi doctori
+    List<User> findByDoctorRequestTrue();
 }
