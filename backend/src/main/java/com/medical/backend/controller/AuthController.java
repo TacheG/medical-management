@@ -5,6 +5,7 @@ import com.medical.backend.entity.User;
 import com.medical.backend.exception.UserAlreadyExistsException;
 import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.AuthRequest;
+import com.medical.backend.response.AuthResponse;
 import com.medical.backend.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public String authenticateUser(@RequestBody AuthRequest authRequest) {
+    public AuthResponse authenticateUser(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                         authRequest.getUsername(),
@@ -43,7 +46,15 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         if (userDetails != null) {
-            return jwtUtils.generateToken(userDetails.getUsername());
+            String token = jwtUtils.generateToken(userDetails.getUsername());
+            String role = "ROLE_PATIENT";
+
+            Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
+            if (user.isPresent()) {
+                if (user.get().isDoctor()) role = "ROLE_DOCTOR";
+            }
+
+            return new AuthResponse(token, role);
         }
         return null;
     }
