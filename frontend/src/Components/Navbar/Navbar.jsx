@@ -1,16 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import LogoutButton from "../LogoutButton/LogoutButton";
+import {Link, useHistory} from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
     const role = localStorage.getItem("role");
 
+    const history = useHistory();
+
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+
+        history.push("/");
+    };
+
     return (
         <nav className="navbar">
 
             <div className="nav-links">
-                <Link to="/profile">Profile</Link>
+
+                {
+                    role === "ROLE_PATIENT" && (
+                        <Link to={"/patient"}>Menu</Link>
+                    )
+                }
+
+                {
+                    role === "ROLE_DOCTOR" && (
+                        <Link to={"/doctor"}>Menu</Link>
+                    )
+                }
+
+                {
+                    role === "ROLE_PATIENT" && (
+                        <Link to="/profile">Profile</Link>
+                    )
+                }
+
+                {
+                    role === "ROLE_DOCTOR" && (
+                        <Link to="/doctorProfile">Profile</Link>
+                    )
+                }
 
                 <Link to="/history">Medical History</Link>
 
@@ -40,8 +72,12 @@ function Navbar() {
                     Contact
                 </Link>
 
-
-                <LogoutButton />
+                <button
+                    className="logout-button"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </button>
             </div>
         </nav>
     )
