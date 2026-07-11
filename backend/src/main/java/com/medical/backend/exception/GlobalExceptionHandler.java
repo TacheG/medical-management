@@ -23,10 +23,10 @@ public class GlobalExceptionHandler {
                 .body("Invalid username or password!");
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Something went wrong!");
-    }
+    }*/
 }

@@ -24,6 +24,11 @@ public class PatientController {
 
     @PutMapping("/profile")
     public String updateProfile(Authentication authentication, @RequestBody PatientProfileRequest patientRequest) {
+
+        if (authentication == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+
         String username = authentication.getName();
         return patientService.updateProfile(username, patientRequest);
     }

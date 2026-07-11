@@ -1,5 +1,6 @@
 package com.medical.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,6 @@ public class Doctor {
 
     private Integer experienceYears;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DoctorSchedule> schedules = new ArrayList<>();
 }
