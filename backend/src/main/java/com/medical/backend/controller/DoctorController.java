@@ -1,8 +1,10 @@
 package com.medical.backend.controller;
 
 import com.medical.backend.dto.DoctorDto;
+import com.medical.backend.dto.DoctorScheduleDto;
 import com.medical.backend.dto.PatientDto;
 import com.medical.backend.entity.Doctor;
+import com.medical.backend.entity.DoctorSchedule;
 import com.medical.backend.entity.Patient;
 import com.medical.backend.entity.User;
 import com.medical.backend.repository.UserRepository;
@@ -37,6 +39,11 @@ public class DoctorController {
     public String scheduleDoctor(Authentication authentication, @RequestBody DoctorScheduleRequest doctorRequest) {
         String username = authentication.getName();
         return doctorService.addSchedule(username, doctorRequest);
+    }
+
+    @GetMapping("/getSchedule")
+    public List<DoctorScheduleDto> getSchedule(Authentication authentication) {
+        return doctorService.getSchedule(authentication);
     }
 
     @GetMapping("/{doctor-id}/available-slots")
