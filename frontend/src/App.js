@@ -5,6 +5,7 @@ import DoctorPage from "./Components/Doctor/DoctorPage"
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import PatientProfile from "./Components/Patient/PatientProfile";
 import DoctorProfile from "./Components/Doctor/DoctorProfile";
+import Schedule from "./Components/Doctor/Schedule"
 
 import { BrowserRouter, Switch } from "react-router-dom";
 function App() {
@@ -20,26 +21,37 @@ function App() {
               />
 
               <ProtectedRoute
+                  exact
                   path="/patient"
                   component={PatientPage}
                   allowedRole="ROLE_PATIENT"
               />
 
               <ProtectedRoute
+                  exact
                   path="/doctor"
                   component={DoctorPage}
                   allowedRole="ROLE_DOCTOR"
               />
 
               <ProtectedRoute
+                  exact
                   path="/profile"
                   component={PatientProfile}
                   allowedRole="ROLE_PATIENT"
               />
 
               <ProtectedRoute
+                  exact
                   path="/doctorProfile"
                   component={DoctorProfile}
+                  allowedRole="ROLE_DOCTOR"
+              />
+
+              <ProtectedRoute
+                  exact
+                  path="/schedule"
+                  component={Schedule}
                   allowedRole="ROLE_DOCTOR"
               />
 

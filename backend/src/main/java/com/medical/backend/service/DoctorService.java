@@ -1,6 +1,7 @@
 package com.medical.backend.service;
 
 import com.medical.backend.dto.DoctorDto;
+import com.medical.backend.dto.DoctorScheduleDto;
 import com.medical.backend.entity.Doctor;
 import com.medical.backend.entity.DoctorSchedule;
 import com.medical.backend.entity.User;
@@ -10,6 +11,7 @@ import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.DoctorRequest;
 import com.medical.backend.request.DoctorScheduleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -46,6 +48,28 @@ public class DoctorService {
 
         userRepository.save(userDetails);
         return "Profile updated!";
+    }
+
+    public List<DoctorScheduleDto> getSchedule(Authentication authentication) {
+        String username = authentication.getName();
+
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) return new ArrayList<>();
+
+        User userDetails = user.get();
+
+        Doctor doctor =  userDetails.getDoctorProfile();
+
+        if (doctor == null) return new ArrayList<>();
+
+        return  doctorScheduleRepository.findByDoctorId(doctor.getId())
+                .stream()
+                .map(schedule -> new DoctorScheduleDto(
+                        schedule.getDayOfWeek(),
+                        schedule.getStartTime(),
+                        schedule.getEndTime()
+                ))
+                .collect(Collectors.toList());
     }
 
     public List<DoctorDto> findAllDoctors() {

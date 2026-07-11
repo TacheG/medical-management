@@ -1,0 +1,89 @@
+.schedule-container {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 120px;
+
+}
+
+.schedule-card {
+
+    width: 800px;
+
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 30px;
+
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
+
+}
+
+.schedule-card h1 {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+.schedule-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+}
+
+.schedule-row h3 {
+
+    width: 140px;
+
+}
+
+.schedule-row select {
+
+    padding: 8px;
+
+    border-radius: 8px;
+
+}
+
+.schedule-row button {
+
+    padding: 8px 16px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    background: #009688;
+
+    color: white;
+
+}
+
+.schedule-row button:hover {
+
+    background: #00796b;
+
+}
+
+.message {
+
+    text-align: center;
+
+    margin-top: 20px;
+
+    font-weight: bold;
+
+}
