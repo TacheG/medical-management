@@ -57,8 +57,8 @@ public class DoctorService {
 
     private DoctorDto toDto(Doctor doctor) {
         return new DoctorDto(
-                doctor.getId(),
                 doctor.getUser().getUsername(),
+                doctor.getUser().getEmail(),
                 doctor.getBiography(),
                 doctor.getExperienceYears(),
                 doctor.getLicenseNumber()

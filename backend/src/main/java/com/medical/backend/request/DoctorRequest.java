@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class DoctorRequest {
-    private Long userId;
     private String licenseNumber;
     private String biography;
     private Integer experienceYears;
