@@ -15,9 +15,8 @@ public class DoctorSpecialty {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "specialty_id")
-    private Specialty specialty;
+    @Enumerated(EnumType.STRING)
+    private SpecialtyType specialtyType;
 
     private BigDecimal price;
 }

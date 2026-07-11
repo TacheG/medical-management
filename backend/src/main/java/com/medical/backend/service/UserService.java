@@ -9,6 +9,7 @@ import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.DoctorRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,10 @@ public class UserService {
     private DoctorRepository doctorRepository;
 
     @Transactional
-    public String requestDoctor(DoctorRequest doctorRequest) {
-        Optional<User> user = userRepository.findById(doctorRequest.getUserId());
+    public String requestDoctor(Authentication authentication, DoctorRequest doctorRequest) {
+        String username = authentication.getName();
+
+        Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isEmpty()) return "User not found";
 
@@ -49,9 +52,9 @@ public class UserService {
         doctorRepository.save(doctor);
 
         userDetails.setDoctorRequest(true);
-        userRepository.save(userDetails);
-
         userDetails.setDoctorProfile(doctor);
+
+        userRepository.save(userDetails);
 
         return "Success, your application was submitted";
     }
@@ -63,6 +66,8 @@ public class UserService {
 
         User userDetails = user.get();
         Doctor doctor =  userDetails.getDoctorProfile();
+
+        if (doctor == null) return "User has no doctor profile.";
 
         doctor.setStatus(DoctorStatus.APPROVED);
         doctorRepository.save(doctor);
@@ -81,6 +86,8 @@ public class UserService {
 
         User userDetails = user.get();
         Doctor doctor =  userDetails.getDoctorProfile();
+
+        if (doctor == null) return "User has no doctor profile.";
 
         doctor.setStatus(DoctorStatus.REJECTED);
         doctorRepository.save(doctor);

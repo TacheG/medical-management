@@ -1,9 +1,13 @@
 package com.medical.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 public class Appointment {
     @Id
@@ -18,8 +22,13 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    private LocalDateTime dateTime;
-    private String status;
+    private LocalDateTime appointmentDateTime;
+
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus appointmentStatus;
+
+    @Column(length = 500)
+    private String symptomsDescription;
 
     public Appointment() {}
 }
