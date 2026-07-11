@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './LoginSignup.css';
 
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
-import {renderToPipeableStream} from "react-dom/server";
+import { useHistory } from "react-router-dom";
 
 const LoginSignup = () => {
+    const history = useHistory();
 
     const [action, setAction] = useState("Login");
 
@@ -12,9 +13,11 @@ const LoginSignup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [message, setMessage] = useState("");
+
     const handleSignUp = async () => {
         if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
-            alert("Please complete all fields!");
+            setMessage("Please complete all fields!");
             return;
         }
 
@@ -32,28 +35,31 @@ const LoginSignup = () => {
             });
 
             if (response.ok) {
-                alert("Account created successfully!");
+                setMessage("Account created successfully! Please login.");
 
-                setAction("Login");
 
                 setName("");
                 setEmail("");
                 setPassword("");
 
+                setAction("Login");
+                setTimeout(() => {
+                    setMessage("")
+                }, 1500);
             } else {
 
                 const message = await response.text();
-                alert(message);
+                setMessage(message);
             }
 
         } catch (err) {
-            alert("Server error!");
+            setMessage("Server error!");
         }
     }
 
     const handleLogin = async () => {
         if (username.trim() === "" || password.trim() === "") {
-            alert("Please enter your name and password!");
+            setMessage("Please enter your name and password!");
             return;
         }
 
@@ -70,14 +76,23 @@ const LoginSignup = () => {
 
         if (response.ok) {
 
-            const token = await response.text();
+            const data = await response.json();
 
-            localStorage.setItem("token", token);
+            console.log(data)
 
-            alert("Login successful!");
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.role);
+
+            setMessage("Login successful!");
+
+            if (data.role === "ROLE_DOCTOR") {
+                history.push("/doctor");
+            } else if (data.role === "ROLE_PATIENT") {
+                history.push("/patient");
+            }
         } else {
             const message = await response.text();
-            alert(message);
+            setMessage(message);
         }
     }
 
@@ -88,6 +103,12 @@ const LoginSignup = () => {
                 <div className="text">{action}</div>
                 <div className="underline"></div>
             </div>
+
+            {message && (
+                <div className="success-message">
+                    {message}
+                </div>
+            )}
 
             <div className="inputs">
 
