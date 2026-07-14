@@ -2,14 +2,11 @@ package com.medical.backend.service;
 
 import com.medical.backend.dto.DoctorDto;
 import com.medical.backend.dto.DoctorScheduleDto;
-import com.medical.backend.entity.Doctor;
-import com.medical.backend.entity.DoctorSchedule;
-import com.medical.backend.entity.User;
-import com.medical.backend.repository.DoctorRepository;
-import com.medical.backend.repository.DoctorScheduleRepository;
-import com.medical.backend.repository.UserRepository;
+import com.medical.backend.entity.*;
+import com.medical.backend.repository.*;
 import com.medical.backend.request.DoctorRequest;
 import com.medical.backend.request.DoctorScheduleRequest;
+import com.medical.backend.request.MedicalRecordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -31,6 +28,12 @@ public class DoctorService {
     private DoctorRepository doctorRepository;
     @Autowired
     private DoctorScheduleRepository doctorScheduleRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
 
     public String updateProfile(String username, DoctorRequest doctorRequest) {
         Optional<User> user = userRepository.findByUsername(username);
@@ -137,5 +140,26 @@ public class DoctorService {
             current = current.plusMinutes(30);
         }
         return slots;
+    }
+
+    public String createMedicalRecord(Long appointmentId, MedicalRecordRequest request) {
+        Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+
+        if (appointment.isEmpty()) {
+            return "Appointment does not exist";
+        }
+
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setAppointment(appointment.get());
+        medicalRecord.setDiagnosis(request.getDiagnosis());
+        medicalRecord.setTreatment(request.getTreatment());
+        medicalRecord.setDoctorNotes(request.getDoctorNotes());
+
+        appointment.get().setMedicalRecord(medicalRecord);
+        appointment.get().setAppointmentStatus(AppointmentStatus.COMPLETED);
+
+        appointmentRepository.save(appointment.get());
+
+        return "Medical Record created!";
     }
 }

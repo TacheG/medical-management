@@ -1,5 +1,6 @@
 package com.medical.backend.controller;
 
+import com.medical.backend.dto.MedicalRecordDto;
 import com.medical.backend.dto.PatientDto;
 import com.medical.backend.entity.Patient;
 import com.medical.backend.entity.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -54,5 +56,10 @@ public class PatientController {
                 patient.getAllergies(),
                 patient.getDateOfBirth()
         );
+    }
+
+    @GetMapping("/medical-history")
+    public List<MedicalRecordDto> getMedicalHistory(Authentication authentication) {
+        return patientService.getMedicalHistory(authentication);
     }
 }
