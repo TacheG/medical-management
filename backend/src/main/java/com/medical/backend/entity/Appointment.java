@@ -22,6 +22,9 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
+    private MedicalRecord medicalRecord;
+
     private LocalDateTime appointmentDateTime;
 
     @Enumerated(EnumType.STRING)
@@ -29,6 +32,7 @@ public class Appointment {
 
     @Column(length = 500)
     private String symptomsDescription;
+
 
     public Appointment() {}
 }
