@@ -2,14 +2,13 @@ package com.medical.backend.controller;
 
 import com.medical.backend.dto.DoctorDto;
 import com.medical.backend.dto.DoctorScheduleDto;
+import com.medical.backend.dto.DoctorSpecialtyDto;
 import com.medical.backend.dto.PatientDto;
-import com.medical.backend.entity.Doctor;
-import com.medical.backend.entity.DoctorSchedule;
-import com.medical.backend.entity.Patient;
-import com.medical.backend.entity.User;
+import com.medical.backend.entity.*;
 import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.DoctorRequest;
 import com.medical.backend.request.DoctorScheduleRequest;
+import com.medical.backend.request.DoctorSpecialtyRequest;
 import com.medical.backend.service.DoctorService;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +71,23 @@ public class DoctorController {
         );
     }
 
+    @PostMapping("/addSpecialty")
+    public String addSpecialty(Authentication authentication, @RequestBody DoctorSpecialtyRequest doctorSpecialtyRequest) {
+        return doctorService.addSpecialty(authentication.getName(), doctorSpecialtyRequest);
+    }
 
+    @GetMapping("/specialties")
+    public List<DoctorSpecialtyDto> getSpecialties(Authentication authentication) {
+        return doctorService.getSpecialties(authentication.getName());
+    }
 
+    @DeleteMapping("/specialty/{id}")
+    public String deleteSpecialty(
+            Authentication authentication,
+            @PathVariable Long id
+    ) {
+        String username = authentication.getName();
+
+        return doctorService.deleteSpecialty(username, id);
+    }
 }

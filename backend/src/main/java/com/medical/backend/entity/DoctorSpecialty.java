@@ -1,10 +1,14 @@
 package com.medical.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
+@Setter
+@Getter
 public class DoctorSpecialty {
 
     @Id
@@ -19,4 +23,5 @@ public class DoctorSpecialty {
     private SpecialtyType specialtyType;
 
     private BigDecimal price;
+
 }

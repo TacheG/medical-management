@@ -202,3 +202,168 @@ body {
     font-weight: bold;
     font-size: 16px;
 }
+
+.specialty-section {
+
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    padding: 25px;
+
+    background: #fafafa;
+
+    border-radius: 15px;
+
+    border: 1px solid #e5e5e5;
+
+}
+
+
+.specialty-section h2 {
+
+    margin-bottom: 20px;
+
+    color: #333;
+
+}
+
+
+.specialty-form {
+
+    display: flex;
+
+    gap: 20px;
+
+    align-items: flex-end;
+
+    flex-wrap: wrap;
+
+}
+
+
+.specialty-form .field {
+
+    margin-bottom: 0;
+
+}
+
+
+.specialty-form select,
+.specialty-form input {
+
+    width: 220px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+    font-size: 15px;
+
+}
+
+
+.add-specialty-button {
+
+    height: 42px;
+
+    padding: 0 25px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #009688;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+}
+
+
+.add-specialty-button:hover {
+
+    background: #00796b;
+
+}
+
+
+
+.specialty-list {
+
+    margin-top: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+
+
+.specialty-card {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 20px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+
+}
+
+
+.specialty-card strong {
+
+    font-size: 17px;
+
+    color: #333;
+
+}
+
+
+.specialty-card p {
+
+    margin: 5px 0 0;
+
+    color: #666;
+
+}
+
+
+
+.delete-specialty-button {
+
+    background: #e53935;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+}
+
+
+.delete-specialty-button:hover {
+
+    background: #c62828;
+
+}

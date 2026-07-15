@@ -2,10 +2,12 @@ package com.medical.backend.service;
 
 import com.medical.backend.dto.DoctorDto;
 import com.medical.backend.dto.DoctorScheduleDto;
+import com.medical.backend.dto.DoctorSpecialtyDto;
 import com.medical.backend.entity.*;
 import com.medical.backend.repository.*;
 import com.medical.backend.request.DoctorRequest;
 import com.medical.backend.request.DoctorScheduleRequest;
+import com.medical.backend.request.DoctorSpecialtyRequest;
 import com.medical.backend.request.MedicalRecordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,9 @@ public class DoctorService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private DoctorSpecialtyRepository doctorSpecialtyRepository;
 
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
@@ -161,5 +166,72 @@ public class DoctorService {
         appointmentRepository.save(appointment.get());
 
         return "Medical Record created!";
+    }
+
+    public String addSpecialty(String username, DoctorSpecialtyRequest doctorSpecialtyRequest) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) return "User not found";
+
+        User userDetails = user.get();
+
+        Doctor doctor = userDetails.getDoctorProfile();
+
+        if (doctor == null) return "User not a doctor";
+
+        if (doctorSpecialtyRepository.existsByDoctorAndSpecialtyType(doctor, doctorSpecialtyRequest.getSpecialtyType()))
+            return "Specialty already exists";
+
+        DoctorSpecialty specialty = new DoctorSpecialty();
+
+        specialty.setDoctor(doctor);
+        specialty.setSpecialtyType(doctorSpecialtyRequest.getSpecialtyType());
+        specialty.setPrice(doctorSpecialtyRequest.getPrice());
+
+        doctorSpecialtyRepository.save(specialty);
+
+        return "Specialty added!";
+    }
+
+    public List<DoctorSpecialtyDto> getSpecialties(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) return List.of();
+
+        User userDetails = user.get();
+
+        Doctor doctor =  userDetails.getDoctorProfile();
+
+        return doctorSpecialtyRepository.findByDoctor(doctor)
+                .stream()
+                .map(s -> new DoctorSpecialtyDto(
+                        s.getId(),
+                        s.getSpecialtyType(),
+                        s.getPrice()
+                ))
+                .toList();
+    }
+
+    public String deleteSpecialty(String username, Long id) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) return "User not found";
+
+        Doctor doctor = user.get().getDoctorProfile();
+
+        if (doctor == null) return "User not a doctor";
+
+        Optional<DoctorSpecialty> specialty = doctorSpecialtyRepository.findById(id);
+
+        if (specialty.isEmpty()) return "Specialty not found";
+
+        DoctorSpecialty doctorSpecialty = specialty.get();
+
+        if (!doctorSpecialty.getDoctor().getId().equals(doctor.getId()))
+            return "Not your specialty";
+
+        doctorSpecialtyRepository.delete(doctorSpecialty);
+
+        return "Specialty deleted!";
     }
 }
