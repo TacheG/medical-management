@@ -1,189 +1,280 @@
-import React, { useState } from 'react';
-import './LoginSignup.css';
-
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import React, { useState } from "react";
+import "./LoginSignup.css";
+import { FaUser, FaEnvelope, FaLock, FaHeartbeat } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 
 const LoginSignup = () => {
+
     const history = useHistory();
 
     const [action, setAction] = useState("Login");
 
-    const [username, setName] = useState("");
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+
+    const clearMessages = () => {
+        setMessage("");
+        setError("");
+    };
 
     const handleSignUp = async () => {
-        if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
-            setMessage("Please complete all fields!");
+
+        clearMessages();
+
+        if (!username || !email || !password) {
+            setError("Please complete all fields!");
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:8080/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username,
-                    password,
-                    email
-                })
-            });
 
-            if (response.ok) {
+            const response = await fetch(
+                "http://localhost:8080/auth/signup",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        username,
+                        email,
+                        password
+                    })
+                }
+            );
+
+            if(response.ok){
+
                 setMessage("Account created successfully! Please login.");
 
-
-                setName("");
+                setUsername("");
                 setEmail("");
                 setPassword("");
 
-                setAction("Login");
-                setTimeout(() => {
-                    setMessage("")
-                }, 1500);
-            } else {
+                setTimeout(()=>{
+                    setAction("Login");
+                    clearMessages();
+                },2000);
 
-                const message = await response.text();
-                setMessage(message);
+            }else{
+                setError(await response.text());
             }
 
-        } catch (err) {
-            setMessage("Server error!");
+        }catch{
+            setError("Server error!");
         }
-    }
+    };
+
 
     const handleLogin = async () => {
-        if (username.trim() === "" || password.trim() === "") {
-            setMessage("Please enter your name and password!");
+
+        clearMessages();
+
+        if(!username || !password){
+            setError("Please enter username and password!");
             return;
         }
 
-        const response = await fetch("http://localhost:8080/auth/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                password
-            })
-        });
+        try{
 
-        if (response.ok) {
+            const response = await fetch(
+                "http://localhost:8080/auth/signin",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            );
 
-            const data = await response.json();
 
-            console.log(data)
+            if(response.ok){
 
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("role", data.role);
+                const data = await response.json();
 
-            setMessage("Login successful!");
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("role", data.role);
 
-            if (data.role === "ROLE_DOCTOR") {
-                history.push("/doctor");
-            } else if (data.role === "ROLE_PATIENT") {
-                history.push("/patient");
+                setMessage("Login successful!");
+
+
+                setTimeout(()=>{
+
+                    if(data.role==="ROLE_DOCTOR"){
+                        history.push("/doctor");
+                    }
+
+                    if(data.role==="ROLE_PATIENT"){
+                        history.push("/patient");
+                    }
+
+                },700);
+
+
+            }else{
+
+                setError(await response.text());
+
             }
-        } else {
-            const message = await response.text();
-            setMessage(message);
+
+
+        }catch{
+
+            setError("Server error!");
+
         }
-    }
+
+    };
+
 
     return (
-        <div className="container">
 
-            <div className="header">
-                <div className="text">{action}</div>
-                <div className="underline"></div>
-            </div>
+        <div className="login-page">
 
-            {message && (
-                <div className="success-message">
-                    {message}
-                </div>
-            )}
+            <div className="container">
 
-            <div className="inputs">
+                <div className="header">
 
-                <div className="input">
-                    <FaUser className="icon" />
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        value={username}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
-
-                {action === "Sign Up" && (
-                    <div className="input">
-                        <FaEnvelope className="icon" />
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                    <div className="logo">
+                        <FaHeartbeat/>
                     </div>
-                )}
 
-                <div className="input">
-                    <FaLock className="icon" />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <div className="text">
+                        MediCare
+                    </div>
+
+                    <div className="subtitle">
+                        Your health, our priority
+                    </div>
+
+                    <div className="underline"></div>
+
                 </div>
 
-            </div>
 
-            {action === "Login" && (
-                <div className="forgotpassword">
-                    Lost Password? <span>Click Here!</span>
+                {message &&
+                    <div className="success-message">
+                        {message}
+                    </div>
+                }
+
+
+                {error &&
+                    <div className="success-message error-message">
+                        {error}
+                    </div>
+                }
+
+
+                <div className="inputs">
+
+                    <div className="input">
+
+                        <FaUser className="icon"/>
+
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e)=>setUsername(e.target.value)}
+                        />
+
+                    </div>
+
+
+                    {action==="Sign Up" &&
+
+                        <div className="input">
+
+                            <FaEnvelope className="icon"/>
+
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e)=>setEmail(e.target.value)}
+                            />
+
+                        </div>
+
+                    }
+
+
+                    <div className="input">
+
+                        <FaLock className="icon"/>
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e)=>setPassword(e.target.value)}
+                        />
+
+                    </div>
+
+
                 </div>
-            )}
 
-            <div className="submit-container">
 
-                <div
-                    className={action === "Sign Up" ? "submit" : "submit gray"}
-                    onClick={() => {
-                        if (action === "Login") {
-                            setAction("Sign Up");
-                        } else {
-                            handleSignUp();
+                {action==="Login" &&
+
+                    <div className="forgotpassword">
+                        Forgot password? <span>Click here</span>
+                    </div>
+
+                }
+
+
+                <div className="submit-container">
+
+
+                    <div
+                        className={action==="Sign Up" ? "submit" : "submit gray"}
+                        onClick={() =>
+                            action==="Login"
+                                ? setAction("Sign Up")
+                                : handleSignUp()
                         }
-                    }}
-                >
-                    {action === "Login" ? "Sign Up" : "Create Account"}
+                    >
+
+                        {action==="Login" ? "Create Account" : "Register"}
+
+                    </div>
+
+
+
+                    <div
+                        className={action==="Login" ? "submit" : "submit gray"}
+                        onClick={() =>
+                            action==="Login"
+                                ? handleLogin()
+                                : setAction("Login")
+                        }
+                    >
+
+                        {action==="Login" ? "Login" : "Back"}
+
+                    </div>
+
+
                 </div>
 
-                <div
-                    className={action === "Login" ? "submit" : "submit gray"}
-                    onClick={() => {
-                        if (action === "Login") {
-                            handleLogin();
-                        } else {
-                            setAction("Login");
-                        }
-                    }}
-                >
-                    {action === "Login" ? "Login" : "Back to Login"}
-                </div>
 
             </div>
 
         </div>
+
     );
-}
+
+};
 
 export default LoginSignup;

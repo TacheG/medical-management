@@ -6,6 +6,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import PatientProfile from "./Components/Patient/PatientProfile";
 import DoctorProfile from "./Components/Doctor/DoctorProfile";
 import Schedule from "./Components/Doctor/Schedule"
+import Doctors from "./Components/Patient/Doctors";
 
 import { BrowserRouter, Switch } from "react-router-dom";
 function App() {
@@ -32,6 +33,13 @@ function App() {
                   path="/doctor"
                   component={DoctorPage}
                   allowedRole="ROLE_DOCTOR"
+              />
+
+              <ProtectedRoute
+                  exact
+                  path="/doctors"
+                  component={Doctors}
+                  allowedRole="ROLE_PATIENT"
               />
 
               <ProtectedRoute

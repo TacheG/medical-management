@@ -30,7 +30,7 @@ public class Doctor {
     private List<Appointment> appointments;
 
     @OneToMany (mappedBy = "doctor", cascade = CascadeType.ALL)
-    private List<DoctorSpecialty> doctorSpecialties;
+    private List<DoctorSpecialty> doctorSpecialties = new ArrayList<>();
 
     @Column(length = 2000)
     private String biography;

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,4 +15,6 @@ public class DoctorDto {
     private String biography;
     private Integer experienceYears;
     private String licenseNumber;
+
+    private  List<DoctorSpecialtyDto> specialty;
 }

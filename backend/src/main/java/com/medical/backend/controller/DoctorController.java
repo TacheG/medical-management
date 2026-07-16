@@ -5,6 +5,7 @@ import com.medical.backend.dto.DoctorScheduleDto;
 import com.medical.backend.dto.DoctorSpecialtyDto;
 import com.medical.backend.dto.PatientDto;
 import com.medical.backend.entity.*;
+import com.medical.backend.repository.DoctorSpecialtyRepository;
 import com.medical.backend.repository.UserRepository;
 import com.medical.backend.request.DoctorRequest;
 import com.medical.backend.request.DoctorScheduleRequest;
@@ -27,6 +28,9 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private DoctorSpecialtyRepository doctorSpecialtyRepository;
 
     @PutMapping("/profile")
     public String updateProfile(Authentication authentication, @RequestBody DoctorRequest doctorRequest) {
@@ -62,12 +66,22 @@ public class DoctorController {
 
         if (doctor == null) return null;
 
+        List<DoctorSpecialtyDto> specialtyList = doctorSpecialtyRepository.findByDoctor(doctor)
+                .stream()
+                .map(s -> new DoctorSpecialtyDto(
+                        s.getId(),
+                        s.getSpecialtyType(),
+                        s.getPrice()
+                ))
+                .toList();
+
         return new DoctorDto(
                 user.get().getUsername(),
                 user.get().getEmail(),
                 doctor.getBiography(),
                 doctor.getExperienceYears(),
-                doctor.getLicenseNumber()
+                doctor.getLicenseNumber(),
+                specialtyList
         );
     }
 

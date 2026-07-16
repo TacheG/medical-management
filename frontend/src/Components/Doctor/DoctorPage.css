@@ -1,0 +1,14 @@
+.doctor-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-sizing:border-box;
+    padding-bottom:100px;
+}
+
+.doctor-page h1{
+    font-size:38px;
+    color:#b5176f;
+    margin:0;
+}

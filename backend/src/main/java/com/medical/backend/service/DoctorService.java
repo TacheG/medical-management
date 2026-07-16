@@ -88,12 +88,22 @@ public class DoctorService {
     }
 
     private DoctorDto toDto(Doctor doctor) {
+        List<DoctorSpecialtyDto> specialtyList = doctorSpecialtyRepository.findByDoctor(doctor)
+                .stream()
+                .map(s -> new DoctorSpecialtyDto(
+                        s.getId(),
+                        s.getSpecialtyType(),
+                        s.getPrice()
+                ))
+                .toList();
+
         return new DoctorDto(
                 doctor.getUser().getUsername(),
                 doctor.getUser().getEmail(),
                 doctor.getBiography(),
                 doctor.getExperienceYears(),
-                doctor.getLicenseNumber()
+                doctor.getLicenseNumber(),
+                specialtyList
         );
     }
 

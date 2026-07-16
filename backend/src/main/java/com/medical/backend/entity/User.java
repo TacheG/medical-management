@@ -24,10 +24,10 @@ public class User {
     private boolean isDoctor = false;
     private boolean doctorRequest = false;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Patient patientProfile;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Doctor doctorProfile;
 
     public User() {}

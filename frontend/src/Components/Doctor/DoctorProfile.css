@@ -1,369 +1,232 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    min-height: 100vh;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f4c81 0%, #1e88e5 60%, #42a5f5 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container {
-    width: 430px;
-    background: #ffffff;
-    border-radius: 22px;
-    padding: 40px;
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.text {
-    font-size: 38px;
-    font-weight: 700;
-    color: #0f4c81;
-}
-
-.underline {
-    width: 70px;
-    height: 5px;
-    border-radius: 20px;
-    background: #29b6f6;
-    margin-top: 10px;
-}
-
-.inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 40px;
-}
-
-.input {
-    display: flex;
-    align-items: center;
-    height: 58px;
-    background: #f4f8fc;
-    border-radius: 14px;
-    border: 2px solid transparent;
-    transition: .25s;
-}
-
-.input:hover {
-    background: #edf5fb;
-}
-
-.input:focus-within {
-    border-color: #29b6f6;
-    background: white;
-    box-shadow: 0 0 0 4px rgba(41, 182, 246, .15);
-}
-
-.input img {
-    width: 22px;
-    margin: 0 18px;
-    opacity: .75;
-}
-
-.input input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 16px;
-    color: #333;
-    padding-right: 15px;
-}
-
-.input input::placeholder {
-    color: #9aa5b1;
-}
-
-.forgotpassword {
-    margin-top: 20px;
-    text-align: center;
-    color: #6b7280;
-    font-size: 15px;
-}
-
-.forgotpassword span {
-    color: #0288d1;
-    font-weight: 600;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.forgotpassword span:hover {
-    text-decoration: underline;
-}
-
-.submit-container {
-    display: flex;
-    gap: 18px;
-    margin-top: 35px;
-}
-
-.submit {
-    flex: 1;
-    height: 52px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: linear-gradient(90deg, #0288d1, #29b6f6);
-
-    color: white;
-    font-weight: 600;
-    font-size: 16px;
-
-    border-radius: 40px;
-
-    cursor: pointer;
-
-    transition: .25s;
-}
-
-.submit:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(2, 136, 209, .35);
-}
-
-.submit:active {
-    transform: scale(.98);
-}
-
-.gray {
-    background: #e5e7eb;
-    color: #6b7280;
-    box-shadow: none;
-}
-
-.gray:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-@media (max-width: 500px) {
-
-    .container {
-        width: 92%;
-        padding: 30px 25px;
-    }
-
-    .text {
-        font-size: 32px;
-    }
-
-    .submit-container {
-        flex-direction: column;
-    }
-}
-
-.icon {
-    font-size: 20px;
-    color: #0288d1;
-    margin: 0 18px;
-    min-width: 20px;
-    transition: .3s;
-}
-
-.input:focus-within .icon {
-    color: #01579b;
-    transform: scale(1.1);
-}
-
-.success-message {
-    text-align: center;
-    margin: 20px 0;
-    color: #009688;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.specialty-section {
-
-    margin-top: 30px;
-    margin-bottom: 30px;
-
-    padding: 25px;
-
-    background: #fafafa;
-
-    border-radius: 15px;
-
-    border: 1px solid #e5e5e5;
-
+body{
+    min-height:100vh;
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+    background:linear-gradient(135deg,#fff0f6,#ffd6e7,#f8b6cf);
 }
 
 
-.specialty-section h2 {
-
-    margin-bottom: 20px;
-
-    color: #333;
-
+.doctor-page{
+    min-height:100vh;
+    padding-top:50px;
 }
 
 
-.specialty-form {
-
-    display: flex;
-
-    gap: 20px;
-
-    align-items: flex-end;
-
-    flex-wrap: wrap;
-
+.doctor-layout{
+    width:90%;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:40px;
 }
 
 
-.specialty-form .field {
+.specialty-section{
+    width:450px;
+    background:#ffffff;
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 18px 45px rgba(181,23,111,0.15);
+}
 
-    margin-bottom: 0;
 
+.specialty-section h2,
+.profile-card h1{
+    color:#b5176f;
+    text-align:center;
+    font-size:30px;
+    font-weight:700;
+}
+
+
+.specialty-section h2{
+    margin-bottom:25px;
+}
+
+
+.specialty-section h3{
+    color:#b5176f;
+    margin-top:30px;
+    margin-bottom:15px;
+}
+
+
+.specialty-form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+
+.field{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:12px;
+}
+
+
+.field label{
+    color:#b5176f;
+    font-weight:600;
+    margin-bottom:7px;
 }
 
 
 .specialty-form select,
-.specialty-form input {
-
-    width: 220px;
-
-    padding: 10px 12px;
-
-    border-radius: 8px;
-
-    border: 1px solid #ccc;
-
-    font-size: 15px;
-
+.specialty-form input,
+.profile-card input{
+    width:100%;
+    padding:12px;
+    border-radius:14px;
+    border:2px solid transparent;
+    background:#fff3f7;
+    font-size:16px;
+    outline:none;
 }
 
 
-.add-specialty-button {
-
-    height: 42px;
-
-    padding: 0 25px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #009688;
-
-    color: white;
-
-    font-size: 15px;
-
-    cursor: pointer;
-
+.specialty-form select:focus,
+.specialty-form input:focus,
+.profile-card input:focus{
+    background:white;
+    border-color:#ff85b3;
+    box-shadow:0 0 0 4px rgba(255,133,179,.15);
 }
 
 
-.add-specialty-button:hover {
-
-    background: #00796b;
-
+.add-specialty-button{
+    width:100%;
+    height:45px;
+    border:none;
+    border-radius:40px;
+    background:linear-gradient(90deg,#b5176f,#ff85b3);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
 }
 
 
-
-.specialty-list {
-
-    margin-top: 20px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-
+.add-specialty-button:hover{
+    transform:translateY(-2px);
 }
 
 
-
-.specialty-card {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 15px 20px;
-
-    background: white;
-
-    border-radius: 12px;
-
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-
+.specialty-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
 
-.specialty-card strong {
-
-    font-size: 17px;
-
-    color: #333;
-
+.specialty-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 18px;
+    background:#fff0f6;
+    border-radius:14px;
 }
 
 
-.specialty-card p {
-
-    margin: 5px 0 0;
-
-    color: #666;
-
+.specialty-card strong{
+    color:#b5176f;
+    font-size:17px;
 }
 
 
-
-.delete-specialty-button {
-
-    background: #e53935;
-
-    color: white;
-
-    border: none;
-
-    padding: 8px 18px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
+.specialty-card p{
+    margin-top:5px;
+    color:#666;
 }
 
 
-.delete-specialty-button:hover {
+.delete-specialty-button{
+    background:#e53935;
+    color:white;
+    border:none;
+    padding:8px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
 
-    background: #c62828;
+
+.delete-specialty-button:hover{
+    background:#c62828;
+}
+
+
+.profile-card{
+    width:450px;
+    background:white;
+    padding:35px;
+    border-radius:22px;
+    box-shadow:0 18px 45px rgba(181,23,111,0.15);
+}
+
+
+.profile-card h1{
+    margin-bottom:25px;
+}
+
+
+.profile-card hr{
+    border:none;
+    height:1px;
+    background:#ffd6e7;
+    margin-bottom:25px;
+}
+
+
+.profile-card .field input{
+    padding:12px;
+    border-radius:14px;
+    background:#fff3f7;
+}
+
+
+.profile-card button{
+    width:100%;
+    height:50px;
+    border:none;
+    border-radius:40px;
+    background:linear-gradient(90deg,#b5176f,#ff85b3);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+
+.profile-card button:hover{
+    transform:translateY(-2px);
+}
+
+
+.message{
+    text-align:center;
+    margin-top:15px;
+    color:#b5176f;
+    font-weight:600;
+}
+
+
+@media(max-width:1000px){
+
+    .doctor-layout{
+        flex-direction:column;
+        align-items:center;
+    }
+
+
+    .specialty-section,
+    .profile-card{
+        width:90%;
+    }
 
 }

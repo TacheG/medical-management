@@ -1,98 +1,90 @@
-.profile-container {
-
-    min-height: 100vh;
-
+.profile-container{
+    min-height:100vh;
+    padding-top:140px;
+    padding-bottom:50px;
     display:flex;
-
     justify-content:center;
-
-    align-items:center;
-
+    align-items:flex-start;
+    box-sizing:border-box;
 }
 
-
-.profile-card {
-
-    width:450px;
-
-    padding:35px;
-
+.profile-card{
+    width:480px;
+    padding:40px;
     background:white;
-
-    border-radius:15px;
-
-    box-shadow:0 5px 20px rgba(0,0,0,0.2);
-
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(181,23,111,0.18);
+    border:2px solid #ffd6e7;
 }
 
-
-.profile-card h1 {
-
+.profile-card h1{
     text-align:center;
-
-    margin-bottom:25px;
-
+    color:#b5176f;
+    font-size:32px;
+    margin-bottom:35px;
 }
 
-
-
-.field {
-
+.field{
     display:flex;
-
     flex-direction:column;
-
-    margin-bottom:15px;
-
+    margin-bottom:20px;
 }
 
-
-.field label {
-
-    font-weight:bold;
-
-    margin-bottom:5px;
-
+.field label{
+    font-size:15px;
+    font-weight:600;
+    color:#b5176f;
+    margin-bottom:8px;
 }
 
-
-.field input {
-
-    padding:10px;
-
-    border-radius:8px;
-
-    border:1px solid #ccc;
-
-    font-size:16px;
-
-}
-
-
-
-button {
-
+.field input{
     width:100%;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
+    padding:12px 15px;
+    box-sizing:border-box;
+    border-radius:12px;
+    border:2px solid #ffd6e7;
+    background:white;
     font-size:16px;
-
+    color:#555;
+    outline:none;
 }
 
+.field input:focus{
+    border-color:#ff85b3;
+}
 
-.message {
+.profile-card button{
+    width:100%;
+    margin-top:10px;
+    padding:14px;
+    border:none;
+    border-radius:15px;
+    background:#b5176f;
+    color:white;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
 
+.profile-card button:hover{
+    background:#d63384;
+}
+
+.message{
     text-align:center;
+    margin-top:20px;
+    color:#b5176f;
+    font-weight:600;
+}
 
-    margin-top:15px;
+@media(max-width:600px){
+    .profile-container{
+        padding:120px 15px 40px;
+    }
 
-    color: #f0f;
-
+    .profile-card{
+        width:100%;
+        padding:25px;
+    }
 }

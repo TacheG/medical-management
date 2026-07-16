@@ -1,0 +1,173 @@
+html{
+    overflow-y:scroll;
+}
+
+.doctors-page{
+    min-height:100vh;
+    width:100%;
+    background:linear-gradient(135deg,#fff0f6,#ffd6e7);
+    padding-top:100px;
+    box-sizing:border-box;
+}
+
+.doctors-content{
+    width:100%;
+    padding:0 60px 60px;
+    box-sizing:border-box;
+}
+
+.doctors-header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.doctors-content h1{
+    font-size:38px;
+    font-weight:700;
+    color:#b5176f;
+    margin:0 0 25px;
+    letter-spacing:1px;
+}
+
+.doctors-content h1::after{
+    content:"";
+    display:block;
+    width:80px;
+    height:4px;
+    background:#ff85b3;
+    border-radius:10px;
+    margin:15px auto 0;
+}
+
+.filter-box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+}
+
+.filter-box label{
+    font-size:18px;
+    font-weight:600;
+    color:#b5176f;
+}
+
+.filter-box select{
+    padding:12px 25px;
+    border-radius:15px;
+    border:2px solid #ff85b3;
+    background:white;
+    color:#b5176f;
+    font-size:16px;
+    cursor:pointer;
+    outline:none;
+}
+
+.doctor-list{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(4,minmax(220px,1fr));
+    gap:25px;
+    align-content:start;
+}
+
+.doctor-card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    border:2px solid #ffd6e7;
+    box-shadow:0 8px 20px rgba(181,23,111,.15);
+    transition:.3s;
+    box-sizing:border-box;
+}
+
+.doctor-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 30px rgba(181,23,111,.25);
+}
+
+.doctor-card h2{
+    color:#b5176f;
+    font-size:22px;
+    margin-bottom:18px;
+    border-bottom:2px solid #ffe0eb;
+    padding-bottom:10px;
+}
+
+.doctor-card p{
+    margin:10px 0;
+    font-size:15px;
+    color:#555;
+    line-height:1.5;
+}
+
+.doctor-card strong{
+    color:#b5176f;
+}
+
+.doctor-card hr{
+    margin:20px 0;
+    border:none;
+    height:1px;
+    background:#ffd6e7;
+}
+
+.doctor-card h3{
+    color:#b5176f;
+    font-size:20px;
+    margin-bottom:12px;
+}
+
+.specialty-item{
+    margin-top:10px;
+    padding:8px;
+    border-radius:10px;
+    background:#fff0f6;
+    border-left:3px solid #ff85b3;
+}
+
+.specialty-item p{
+    margin:5px 0;
+}
+
+.loading,
+.error,
+.no-doctors{
+    text-align:center;
+    font-size:22px;
+    color:#d63384;
+}
+
+@media(max-width:1200px){
+
+    .doctor-list{
+        grid-template-columns:repeat(3,minmax(220px,1fr));
+    }
+
+}
+
+@media(max-width:900px){
+
+    .doctor-list{
+        grid-template-columns:repeat(2,minmax(220px,1fr));
+    }
+
+}
+
+@media(max-width:600px){
+
+    .doctors-content{
+        padding:0 15px 40px;
+    }
+
+    .doctor-list{
+        grid-template-columns:1fr;
+    }
+
+    .filter-box{
+        flex-direction:column;
+    }
+
+}
