@@ -6,7 +6,6 @@ function DoctorPage() {
     return (
         <div className="doctor-page">
             <Navbar/>
-
             <h1>Doctor Dashboard</h1>
         </div>
     );
