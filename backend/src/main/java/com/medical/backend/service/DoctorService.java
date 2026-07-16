@@ -3,6 +3,7 @@ package com.medical.backend.service;
 import com.medical.backend.dto.DoctorDto;
 import com.medical.backend.dto.DoctorScheduleDto;
 import com.medical.backend.dto.DoctorSpecialtyDto;
+import com.medical.backend.dto.MedicalRecordDto;
 import com.medical.backend.entity.*;
 import com.medical.backend.repository.*;
 import com.medical.backend.request.DoctorRequest;
@@ -157,23 +158,44 @@ public class DoctorService {
         return slots;
     }
 
-    public String createMedicalRecord(Long appointmentId, MedicalRecordRequest request) {
-        Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+    public String createMedicalRecord(Long appointmentId, MedicalRecordRequest request, Authentication authentication) {
 
-        if (appointment.isEmpty()) {
+        String username = authentication.getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Doctor doctor = user.getDoctorProfile();
+
+        if (doctor == null)
+            return "Only doctors can create medical records.";
+
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElse(null);
+
+        if (appointment == null) {
             return "Appointment does not exist";
         }
 
+        if (!appointment.getDoctor().getId().equals(doctor.getId()))
+            return "This appointment does not belong to this doctor.";
+
+        if (appointment.getMedicalRecord() != null)
+            return "Medical record already exists.";
+
         MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAppointment(appointment.get());
+
+        medicalRecord.setAppointment(appointment);
         medicalRecord.setDiagnosis(request.getDiagnosis());
         medicalRecord.setTreatment(request.getTreatment());
         medicalRecord.setDoctorNotes(request.getDoctorNotes());
 
-        appointment.get().setMedicalRecord(medicalRecord);
-        appointment.get().setAppointmentStatus(AppointmentStatus.COMPLETED);
+        medicalRecordRepository.save(medicalRecord);
 
-        appointmentRepository.save(appointment.get());
+        appointment.setMedicalRecord(medicalRecord);
+        appointment.setAppointmentStatus(AppointmentStatus.COMPLETED);
+
+        appointmentRepository.save(appointment);
 
         return "Medical Record created!";
     }
@@ -243,5 +265,33 @@ public class DoctorService {
         doctorSpecialtyRepository.delete(doctorSpecialty);
 
         return "Specialty deleted!";
+    }
+
+    public List<MedicalRecordDto> getMedicalHistory(Authentication authentication) {
+
+        String username = authentication.getName();
+
+        return medicalRecordRepository
+                .findByAppointmentPatientUserUsername(username)
+                .stream()
+                .map(record -> new MedicalRecordDto(
+
+                        record.getId(),
+
+                        record.getAppointment()
+                                .getDoctor()
+                                .getUser()
+                                .getUsername(),
+
+                        record.getAppointment()
+                                .getAppointmentDateTime(),
+
+                        record.getDiagnosis(),
+
+                        record.getTreatment(),
+
+                        record.getDoctorNotes()
+                ))
+                .toList();
     }
 }

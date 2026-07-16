@@ -87,7 +87,7 @@ function Navbar(){
                 }
 
 
-                <Link to="/history">
+                <Link to="/medical-history">
                     Medical History
                 </Link>
 
