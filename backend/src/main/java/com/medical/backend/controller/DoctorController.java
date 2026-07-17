@@ -76,6 +76,7 @@ public class DoctorController {
                 .toList();
 
         return new DoctorDto(
+                doctor.getId(),
                 user.get().getUsername(),
                 user.get().getEmail(),
                 doctor.getBiography(),
