@@ -87,9 +87,12 @@ function Navbar(){
                 }
 
 
-                <Link to="/medical-history">
-                    Medical History
-                </Link>
+                {
+                    role === "ROLE_PATIENT" &&
+                    <Link to="/medical-history">
+                        Medical History
+                    </Link>
+                }
 
 
                 {
@@ -115,11 +118,19 @@ function Navbar(){
                     </Link>
                 }
 
+                {
+                    role==="ROLE_PATIENT" &&
+                    <Link to="/contact">
+                        Contact
+                    </Link>
+                }
 
-                <Link to="/contact">
-                    Contact
-                </Link>
-
+                {
+                    role==="ROLE_DOCTOR" &&
+                    <Link to="/support">
+                        Support
+                    </Link>
+                }
 
                 <button
                     className="logout-button"

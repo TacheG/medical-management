@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Setter
 public class AppointmentRequest {
     private Long doctorId;
-    private Long patientId;
     private LocalDateTime appointmentDateTime;
     private String symptomsDescription;
 }

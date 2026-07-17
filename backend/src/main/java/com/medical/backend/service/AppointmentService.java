@@ -33,18 +33,43 @@ public class AppointmentService {
     @Autowired
     private DoctorScheduleRepository doctorScheduleRepository;
 
-    public String createAppointment(AppointmentRequest appointmentRequest) {
-        Doctor doctor = doctorRepository.findById(appointmentRequest.getDoctorId())
-                .orElse(null);
+    public String createAppointment(
+            AppointmentRequest appointmentRequest,
+            Authentication authentication
+    ) {
 
-        if (doctor == null)
-            return "Doctor not found.";
+        if(authentication == null){
+            return "No authentication.";
+        }
 
-        Patient patient = patientRepository.findById(appointmentRequest.getPatientId())
-                .orElse(null);
+        String username = authentication.getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        if (user.isDoctor())
+            return "Only patients can create appointments.";
+
+        Patient patient = user.getPatientProfile();
 
         if (patient == null)
-            return "Patient not found.";
+            return "Patient profile not found.";
+
+        if(appointmentRequest.getDoctorId() == null){
+            return "Doctor id is missing.";
+        }
+
+        Doctor doctor = doctorRepository.findById(
+                        appointmentRequest.getDoctorId()
+                )
+                .orElse(null);
+
+        if(doctor == null)
+            return "Doctor not found.";
+
+        if(appointmentRequest.getAppointmentDateTime() == null){
+            return "Date is missing.";
+        }
 
         DayOfWeek day = appointmentRequest.getAppointmentDateTime().getDayOfWeek();
         LocalTime time = appointmentRequest.getAppointmentDateTime().toLocalTime();
@@ -56,11 +81,12 @@ public class AppointmentService {
         if (doctorSchedule == null)
             return "Doctor is not working on that day.";
 
-        if (time.isBefore(doctorSchedule.getStartTime()) || time.isAfter(doctorSchedule.getEndTime()))
+        if (time.isBefore(doctorSchedule.getStartTime())
+                || !time.isBefore(doctorSchedule.getEndTime()))
             return "Doctor is not working at that hour.";
 
         boolean exists = appointmentRepository.existsByDoctorIdAndAppointmentDateTime(
-                appointmentRequest.getDoctorId(),
+                doctor.getId(),
                 appointmentRequest.getAppointmentDateTime()
         );
 
@@ -68,17 +94,10 @@ public class AppointmentService {
             return "Doctor already has an appointment at that time.";
 
         Appointment appointment = new Appointment();
-
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
-        appointment.setAppointmentDateTime(
-                appointmentRequest.getAppointmentDateTime()
-        );
-
-        appointment.setSymptomsDescription(
-                appointmentRequest.getSymptomsDescription()
-        );
-
+        appointment.setAppointmentDateTime(appointmentRequest.getAppointmentDateTime());
+        appointment.setSymptomsDescription(appointmentRequest.getSymptomsDescription());
         appointment.setAppointmentStatus(AppointmentStatus.PENDING);
 
         appointmentRepository.save(appointment);

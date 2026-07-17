@@ -10,11 +10,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class DoctorDto {
+
+    private Long id;
     private String username;
     private String email;
     private String biography;
     private Integer experienceYears;
     private String licenseNumber;
 
-    private  List<DoctorSpecialtyDto> specialty;
+    private List<DoctorSpecialtyDto> specialty;
+
 }
