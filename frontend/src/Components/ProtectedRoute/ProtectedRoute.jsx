@@ -14,29 +14,42 @@ function ProtectedRoute({ component: Component, allowedRole, ...rest }) {
             render={(props) => {
 
                 if (allowedRole === null) {
+
                     if (token) {
-                        if (role === "ROLE_PATIENT") return <Redirect to="/patient" />;
-                        if (role === "ROLE_DOCTOR") return <Redirect to="/doctor" />;
+
+                        if (role === "ROLE_PATIENT")
+                            return <Redirect to="/patient" />;
+
+                        if (role === "ROLE_DOCTOR")
+                            return <Redirect to="/doctor" />;
                     }
 
-                    return <Component {...props} />;
+                    return <Component {...props}/>;
                 }
 
-                if (token == null) {
-                    return <Redirect to="/" />
+
+                if (!token) {
+                    return <Redirect to="/" />;
                 }
 
-                if (allowedRole && role !== allowedRole) {
-                    if (role === "ROLE_PATIENT") {
-                        return <Redirect to="/patient" />;
-                    }
 
-                    if (role === "ROLE_DOCTOR") {
-                        return <Redirect to="/doctor" />;
-                    }
+                const hasAccess = Array.isArray(allowedRole)
+                    ? allowedRole.includes(role)
+                    : role === allowedRole;
+
+
+                if (!hasAccess) {
+
+                    if(role === "ROLE_PATIENT")
+                        return <Redirect to="/patient"/>;
+
+                    if(role === "ROLE_DOCTOR")
+                        return <Redirect to="/doctor"/>;
                 }
 
-                return <Component {...props} />;
+
+                return <Component {...props}/>;
+
             }}
         />
     );

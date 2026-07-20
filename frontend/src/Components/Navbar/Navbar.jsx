@@ -127,8 +127,8 @@ function Navbar(){
 
                 {
                     role==="ROLE_DOCTOR" &&
-                    <Link to="/support">
-                        Support
+                    <Link to="/contact">
+                        Contact
                     </Link>
                 }
 
