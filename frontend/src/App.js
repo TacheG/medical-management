@@ -9,6 +9,7 @@ import Schedule from "./Components/Doctor/Schedule"
 import Doctors from "./Components/Patient/Doctors";
 import MedicalHistory from "./Components/Patient/MedicalHistory";
 import Appointments from "./Components/Patient/Appointments";
+import ContactPage from "./Components/LoginSignup/ContactPage";
 
 import { BrowserRouter, Switch } from "react-router-dom";
 function App() {
@@ -77,6 +78,13 @@ function App() {
                   path="/schedule"
                   component={Schedule}
                   allowedRole="ROLE_DOCTOR"
+              />
+
+              <ProtectedRoute
+                  exact
+                  path="/contact"
+                  component={ContactPage}
+                  allowedRole={["ROLE_PATIENT", "ROLE_DOCTOR"]}
               />
 
           </Switch>
